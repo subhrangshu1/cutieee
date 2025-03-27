@@ -1,6 +1,6 @@
 var radius = 240; // Circle Radius
 var autoRotate = true; // Enable Auto Rotate
-var rotateSpeed = -60; // Rotation Speed (Seconds/360 degrees)
+var rotateSpeed = -3600; // 🔥 Slowest Rotation (3600 sec = 1 deg per 10 sec)
 var imgWidth = 120, imgHeight = 170; // Image Size
 
 // 🎵 AutoPlay Music Fix
@@ -47,7 +47,7 @@ function applyTransform(obj) {
     obj.style.transform = `rotateX(${-tY}deg) rotateY(${tX}deg)`;
 }
 
-// 🌀 Auto Rotate
+// 🌀 Auto Rotate (Slowest)
 if (autoRotate) {
     ospin.style.animation = `${rotateSpeed > 0 ? 'spin' : 'spinRevert'} ${Math.abs(rotateSpeed)}s infinite linear`;
 }
