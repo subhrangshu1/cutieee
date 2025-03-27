@@ -1,53 +1,40 @@
-var radius = 150; // ✅ Circle Radius
-var autoRotate = true; // ✅ Enable Auto Rotate
-var rotateSpeed = -36000; // ✅ Slowest Rotation
-var imgWidth = 100, imgHeight = 140; // ✅ Image Size
+var radius = 120; 
+var autoRotate = true;
+var rotateSpeed = -36000; 
+var imgWidth = 100, imgHeight = 140; 
 
-// 🎵 AutoPlay Music Fix
-var audio = document.getElementById("bg-music");
-document.addEventListener("click", () => audio.play(), { once: true });
-
-// Initialize
-setTimeout(init, 1000);
-
-var odrag = document.getElementById("drag-container");
-var ospin = document.getElementById("spin-container");
-var aImg = ospin.getElementsByTagName("img");
+var odrag = document.getElementById('drag-container');
+var ospin = document.getElementById('spin-container');
+var aImg = ospin.getElementsByTagName('img');
 var aEle = [...aImg];
 
-var tX = 0, tY = 10; // ✅ Rotation Angles
+document.getElementById('ground').style.width = radius * 2 + "px";
+document.getElementById('ground').style.height = radius * 2 + "px";
 
-// ✅ Set Full-Screen Size
-odrag.style.width = "100vw";
-odrag.style.height = "100vh";
-
-// ✅ Set Image Positions
+// Initialize Rotation
 function init(delayTime) {
     aEle.forEach((el, i) => {
         el.style.transform = `rotateY(${i * (360 / aEle.length)}deg) translateZ(${radius}px)`;
         el.style.transition = "transform 1s";
         el.style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
     });
-
-    applyTransform(odrag);
 }
 
-// ✅ Apply Rotation
+// Apply Transform
 function applyTransform(obj) {
-    tY = Math.max(0, Math.min(180, tY));
+    tY = Math.max(0, Math.min(180, tY)); 
     obj.style.transform = `rotateX(${-tY}deg) rotateY(${tX}deg)`;
 }
 
-// ✅ Auto Rotate
+// Auto Rotate
 if (autoRotate) {
-    ospin.style.animation = `${rotateSpeed > 0 ? "spin" : "spinRevert"} ${Math.abs(rotateSpeed)}s infinite linear`;
+    ospin.style.animation = `spin ${Math.abs(rotateSpeed)}s infinite linear`;
 }
 
-// 🖱️ Mouse Drag Rotate
-var sX, sY, nX, nY, desX = 0, desY = 0, isZooming = false;
+// Mouse Drag Rotate
+var sX, sY, nX, nY, desX = 0, desY = 0, tX = 0, tY = 10, isZooming = false;
 
 document.onpointerdown = function (e) {
-    if (isZooming) return;
     clearInterval(odrag.timer);
     sX = e.clientX;
     sY = e.clientY;
@@ -82,25 +69,23 @@ document.onpointerdown = function (e) {
     };
 };
 
-// 🔍 Zoom (Fix: Maintain Rotation Angle)
+// Mouse Scroll Zoom (Ctrl + Scroll)
 document.addEventListener("wheel", function (e) {
     if (e.ctrlKey) {
         e.preventDefault();
         radius += e.deltaY * -0.1;
         radius = Math.min(Math.max(radius, 100), 300);
         init(1);
-        applyTransform(odrag);
     }
 }, { passive: false });
 
-// 📱 Touch Zoom (Pinch Gesture)
+// Touch Zoom (Pinch Gesture)
 var lastTouchDist = 0;
 document.addEventListener("touchmove", function (e) {
     if (e.touches.length === 2) {
         e.preventDefault();
         isZooming = true;
         playSpin(false);
-
         var touch1 = e.touches[0], touch2 = e.touches[1];
         var currentDist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
 
@@ -108,23 +93,19 @@ document.addEventListener("touchmove", function (e) {
             radius += (currentDist - lastTouchDist) * 0.5;
             radius = Math.min(Math.max(radius, 100), 300);
             init(1);
-            applyTransform(odrag);
         }
         lastTouchDist = currentDist;
     }
 }, { passive: false });
 
-// 🛑 Reset Zoom & Enable Rotation
-document.addEventListener("touchend", function (e) {
-    if (e.touches.length === 0) {
-        lastTouchDist = 0;
-        isZooming = false;
-        playSpin(true);
-        applyTransform(odrag);
-    }
+// Reset Zoom & Enable Rotation on Touch End
+document.addEventListener("touchend", function () {
+    lastTouchDist = 0;
+    isZooming = false;
+    playSpin(true);
 });
 
-// 🌀 Play/Pause Rotation
+// Play/Pause Rotation
 function playSpin(yes) {
-    ospin.style.animationPlayState = yes ? "running" : "paused";
+    ospin.style.animationPlayState = yes ? 'running' : 'paused';
 }
