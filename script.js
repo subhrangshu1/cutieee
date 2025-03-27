@@ -1,13 +1,112 @@
-// 🔍 Mouse Scroll Zoom (Ctrl + Scroll)
+var radius = 150; // ✅ Adjusted Circle Radius
+var autoRotate = true; // Enable Auto Rotate
+var rotateSpeed = -36000; // 🔥 Slowest Rotation
+var imgWidth = 80, imgHeight = 110; // ✅ Adjusted Image Size
+
+// 🎵 AutoPlay Music Fix
+var bgMusicURL = 'Kabhi kabhi.mp3';
+var audio = new Audio(bgMusicURL);
+audio.loop = true;
+
+// Try autoplay silently
+audio.play().catch(() => {
+    document.addEventListener("click", () => audio.play(), { once: true });
+});
+
+// ===================== Initialize =======================
+setTimeout(init, 1000);
+
+var odrag = document.getElementById('drag-container');
+var ospin = document.getElementById('spin-container');
+var aImg = ospin.getElementsByTagName('img');
+var aVid = ospin.getElementsByTagName('video');
+var aEle = [...aImg, ...aVid]; // Merge images & videos
+
+// ✅ Adjusted Full-Screen
+odrag.style.width = "100vw";
+odrag.style.height = "100vh";
+
+// ✅ Adjusted Image & Ground Size
+ospin.style.width = imgWidth + "px";
+ospin.style.height = imgHeight + "px";
+document.getElementById('ground').style.width = radius * 2 + "px";
+document.getElementById('ground').style.height = radius * 2 + "px";
+
+// ✅ Store Rotation Angles
+var tX = 0, tY = 10; 
+
+// 🌀 Initialize Rotation
+function init(delayTime) {
+    aEle.forEach((el, i) => {
+        el.style.transform = `rotateY(${i * (360 / aEle.length)}deg) translateZ(${radius}px)`;
+        el.style.transition = "transform 1s";
+        el.style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
+    });
+
+    // ✅ Ensure Rotation Angles Stay Same
+    applyTransform(odrag);
+}
+
+// 🌀 Apply Transform (Rotation)
+function applyTransform(obj) {
+    tY = Math.max(0, Math.min(180, tY)); // Restrict Vertical Rotation
+    obj.style.transform = `rotateX(${-tY}deg) rotateY(${tX}deg)`;
+}
+
+// 🌀 Auto Rotate (Slowest)
+if (autoRotate) {
+    ospin.style.animation = `${rotateSpeed > 0 ? 'spin' : 'spinRevert'} ${Math.abs(rotateSpeed)}s infinite linear`;
+}
+
+// 🖱️ Mouse Drag Rotate
+var sX, sY, nX, nY, desX = 0, desY = 0, isZooming = false, isTwoFingerTouch = false;
+
+document.onpointerdown = function (e) {
+    if (isZooming || isTwoFingerTouch) return; // Disable Rotation During Zoom or 2-Finger Touch
+    clearInterval(odrag.timer);
+    sX = e.clientX;
+    sY = e.clientY;
+
+    document.onpointermove = function (e) {
+        if (isZooming || isTwoFingerTouch) return;
+        nX = e.clientX;
+        nY = e.clientY;
+        desX = nX - sX;
+        desY = nY - sY;
+        tX += desX * 0.1;
+        tY += desY * 0.1;
+        applyTransform(odrag);
+        sX = nX;
+        sY = nY;
+    };
+
+    document.onpointerup = function () {
+        odrag.timer = setInterval(() => {
+            desX *= 0.95;
+            desY *= 0.95;
+            tX += desX * 0.1;
+            tY += desY * 0.1;
+            applyTransform(odrag);
+            playSpin(false);
+            if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
+                clearInterval(odrag.timer);
+                playSpin(true);
+            }
+        }, 17);
+        document.onpointermove = document.onpointerup = null;
+    };
+};
+
+// 🔍 Mouse Scroll Zoom (Fix: Keep Rotation Same)
 document.addEventListener("wheel", function (e) {
     if (e.ctrlKey) {
         e.preventDefault();
 
         let newRadius = radius + e.deltaY * -0.1;
-        radius = Math.min(Math.max(newRadius, 100), 300); // ✅ Zoom Limit Fix
+        radius = Math.min(Math.max(newRadius, 100), 300); // ✅ Fix Zoom Range
 
-        init(1); // ✅ Apply Zoom Without Changing Rotation
-        applyTransform(odrag); // ✅ Keep Rotation Angle Same
+        init(1); // ✅ Only Apply Zoom
+        applyTransform(odrag); // ✅ Maintain Rotation Angle
     }
 }, { passive: false });
 
@@ -44,3 +143,8 @@ document.addEventListener("touchend", function (e) {
         applyTransform(odrag); // ✅ Ensure No Angle Change
     }
 });
+
+// 🌀 Play/Pause Rotation
+function playSpin(yes) {
+    ospin.style.animationPlayState = yes ? 'running' : 'paused';
+}
