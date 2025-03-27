@@ -1,7 +1,7 @@
 var radius = 150; // ✅ Adjusted Circle Radius
 var autoRotate = true; // Enable Auto Rotate
 var rotateSpeed = -36000; // 🔥 Slowest Rotation
-var imgWidth = 100, imgHeight = 140; // ✅ Adjusted Image Size
+var imgWidth = 80, imgHeight = 110; // ✅ Adjusted Image Size
 
 // 🎵 AutoPlay Music Fix
 var bgMusicURL = 'Kabhi kabhi.mp3';
@@ -41,7 +41,7 @@ function init(delayTime) {
     });
 }
 
-// 🌀 Apply Transform
+// 🌀 Apply Transform (Rotation)
 function applyTransform(obj) {
     tY = Math.max(0, Math.min(180, tY)); // Restrict Vertical Rotation
     obj.style.transform = `rotateX(${-tY}deg) rotateY(${tX}deg)`;
@@ -91,44 +91,50 @@ document.onpointerdown = function (e) {
     };
 };
 
-// 🔍 Mouse Scroll Zoom (Ctrl + Scroll)
+// 🔍 Mouse Scroll Zoom (Fix: Keep Angle Same)
 document.addEventListener("wheel", function (e) {
     if (e.ctrlKey) {
         e.preventDefault();
-        radius += e.deltaY * -0.1;
-        radius = Math.min(Math.max(radius, 100), 300); // ✅ Adjusted Zoom Limits
-        init(1);
+
+        let newRadius = radius + e.deltaY * -0.1;
+        radius = Math.min(Math.max(newRadius, 100), 300); // ✅ Fix Zoom Range
+
+        init(1); // ✅ Only Apply Zoom
+        applyTransform(odrag); // ✅ Maintain Rotation Angle
     }
 }, { passive: false });
 
-// 📱 Touch Zoom (Pinch Gesture) & 2-Finger Rotation Stop
+// 📱 Touch Zoom (Pinch Gesture) (Fix: Prevent Rotation Change)
 var lastTouchDist = 0;
 document.addEventListener("touchmove", function (e) {
     if (e.touches.length === 2) {
         e.preventDefault();
-        isZooming = true; // Disable Rotation
+        isZooming = true;
         isTwoFingerTouch = true;
-        playSpin(false); // Stop Rotation
+        playSpin(false);
 
         var touch1 = e.touches[0], touch2 = e.touches[1];
         var currentDist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
 
         if (lastTouchDist) {
-            radius += (currentDist - lastTouchDist) * 0.5;
-            radius = Math.min(Math.max(radius, 100), 300);
-            init(1);
+            let newRadius = radius + (currentDist - lastTouchDist) * 0.5;
+            radius = Math.min(Math.max(newRadius, 100), 300); // ✅ Fix Zoom Range
+            
+            init(1); // ✅ Only Apply Zoom
+            applyTransform(odrag); // ✅ Maintain Angle
         }
         lastTouchDist = currentDist;
     }
 }, { passive: false });
 
-// 🛑 Reset Zoom & Enable Rotation on Touch End
+// 🛑 Reset Zoom & Enable Rotation on Touch End (Fix: Keep Angle Same)
 document.addEventListener("touchend", function (e) {
-    if (e.touches.length === 0) {  // 🛑 Only enable rotation if no fingers are touching
+    if (e.touches.length === 0) {
         lastTouchDist = 0;
         isZooming = false;
         isTwoFingerTouch = false;
-        playSpin(true); // Restart Rotation
+        playSpin(true); // ✅ Resume Rotation
+        applyTransform(odrag); // ✅ Ensure No Angle Change
     }
 });
 
