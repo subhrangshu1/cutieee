@@ -5,7 +5,7 @@ var imgWidth = 120; // width of images (unit: px)
 var imgHeight = 170; // height of images (unit: px)
 
 // Link of background music - set 'null' if you dont want to play background music
-var bgMusicURL = 'path/to/KabhiKabhi.mp3'; // Replace with the correct path to your file
+var bgMusicURL = 'Kabhi kabhi.mp3'; // Replace with the correct path to your file
 var bgMusicControls = true; // Show UI music control
 
 // add background music
