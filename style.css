@@ -5,46 +5,61 @@
 }
 
 body {
-    background: #000;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
+    background-color: black;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
 }
 
-/* Main Rotation Container */
 #drag-container {
-    position: absolute;
+    position: relative;
     width: 100vw;
     height: 100vh;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     perspective: 1000px;
 }
 
 #spin-container {
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 110px;
     transform-style: preserve-3d;
+    animation: spin 60s infinite linear;
 }
 
 #spin-container img {
     width: 80px;
     height: 110px;
     position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: center;
     transition: transform 1s;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid white;
 }
 
 #ground {
     position: absolute;
-    bottom: 0;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 30%, transparent 70%);
     border-radius: 50%;
+    bottom: -50px;
+    transform: rotateX(90deg);
+}
+
+@keyframes spin {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(360deg);
+    }
 }
