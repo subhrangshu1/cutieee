@@ -1,41 +1,27 @@
-var radius = 150; // ✅ Adjusted Circle Radius
-var autoRotate = true; // Enable Auto Rotate
-var rotateSpeed = -36000; // 🔥 Slowest Rotation
-var imgWidth = 80, imgHeight = 110; // ✅ Adjusted Image Size
+var radius = 150; // ✅ Circle Radius
+var autoRotate = true; // ✅ Enable Auto Rotate
+var rotateSpeed = -36000; // ✅ Slowest Rotation
+var imgWidth = 100, imgHeight = 140; // ✅ Image Size
 
 // 🎵 AutoPlay Music Fix
-var bgMusicURL = 'Kabhi kabhi.mp3';
-var audio = new Audio(bgMusicURL);
-audio.loop = true;
+var audio = document.getElementById("bg-music");
+document.addEventListener("click", () => audio.play(), { once: true });
 
-// Try autoplay silently
-audio.play().catch(() => {
-    document.addEventListener("click", () => audio.play(), { once: true });
-});
-
-// ===================== Initialize =======================
+// Initialize
 setTimeout(init, 1000);
 
-var odrag = document.getElementById('drag-container');
-var ospin = document.getElementById('spin-container');
-var aImg = ospin.getElementsByTagName('img');
-var aVid = ospin.getElementsByTagName('video');
-var aEle = [...aImg, ...aVid]; // Merge images & videos
+var odrag = document.getElementById("drag-container");
+var ospin = document.getElementById("spin-container");
+var aImg = ospin.getElementsByTagName("img");
+var aEle = [...aImg];
 
-// ✅ Adjusted Full-Screen
+var tX = 0, tY = 10; // ✅ Rotation Angles
+
+// ✅ Set Full-Screen Size
 odrag.style.width = "100vw";
 odrag.style.height = "100vh";
 
-// ✅ Adjusted Image & Ground Size
-ospin.style.width = imgWidth + "px";
-ospin.style.height = imgHeight + "px";
-document.getElementById('ground').style.width = radius * 2 + "px";
-document.getElementById('ground').style.height = radius * 2 + "px";
-
-// ✅ Store Rotation Angles
-var tX = 0, tY = 10; 
-
-// 🌀 Initialize Rotation
+// ✅ Set Image Positions
 function init(delayTime) {
     aEle.forEach((el, i) => {
         el.style.transform = `rotateY(${i * (360 / aEle.length)}deg) translateZ(${radius}px)`;
@@ -43,32 +29,31 @@ function init(delayTime) {
         el.style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
     });
 
-    // ✅ Ensure Rotation Angles Stay Same
     applyTransform(odrag);
 }
 
-// 🌀 Apply Transform (Rotation)
+// ✅ Apply Rotation
 function applyTransform(obj) {
-    tY = Math.max(0, Math.min(180, tY)); // Restrict Vertical Rotation
+    tY = Math.max(0, Math.min(180, tY));
     obj.style.transform = `rotateX(${-tY}deg) rotateY(${tX}deg)`;
 }
 
-// 🌀 Auto Rotate (Slowest)
+// ✅ Auto Rotate
 if (autoRotate) {
-    ospin.style.animation = `${rotateSpeed > 0 ? 'spin' : 'spinRevert'} ${Math.abs(rotateSpeed)}s infinite linear`;
+    ospin.style.animation = `${rotateSpeed > 0 ? "spin" : "spinRevert"} ${Math.abs(rotateSpeed)}s infinite linear`;
 }
 
 // 🖱️ Mouse Drag Rotate
-var sX, sY, nX, nY, desX = 0, desY = 0, isZooming = false, isTwoFingerTouch = false;
+var sX, sY, nX, nY, desX = 0, desY = 0, isZooming = false;
 
 document.onpointerdown = function (e) {
-    if (isZooming || isTwoFingerTouch) return; // Disable Rotation During Zoom or 2-Finger Touch
+    if (isZooming) return;
     clearInterval(odrag.timer);
     sX = e.clientX;
     sY = e.clientY;
 
     document.onpointermove = function (e) {
-        if (isZooming || isTwoFingerTouch) return;
+        if (isZooming) return;
         nX = e.clientX;
         nY = e.clientY;
         desX = nX - sX;
@@ -97,54 +82,49 @@ document.onpointerdown = function (e) {
     };
 };
 
-// 🔍 Mouse Scroll Zoom (Fix: Keep Rotation Same)
+// 🔍 Zoom (Fix: Maintain Rotation Angle)
 document.addEventListener("wheel", function (e) {
     if (e.ctrlKey) {
         e.preventDefault();
-
-        let newRadius = radius + e.deltaY * -0.1;
-        radius = Math.min(Math.max(newRadius, 100), 300); // ✅ Fix Zoom Range
-
-        init(1); // ✅ Only Apply Zoom
-        applyTransform(odrag); // ✅ Maintain Rotation Angle
+        radius += e.deltaY * -0.1;
+        radius = Math.min(Math.max(radius, 100), 300);
+        init(1);
+        applyTransform(odrag);
     }
 }, { passive: false });
 
-// 📱 Touch Zoom (Pinch Gesture) (Fix: Prevent Rotation Change)
+// 📱 Touch Zoom (Pinch Gesture)
 var lastTouchDist = 0;
 document.addEventListener("touchmove", function (e) {
     if (e.touches.length === 2) {
         e.preventDefault();
         isZooming = true;
-        isTwoFingerTouch = true;
         playSpin(false);
 
         var touch1 = e.touches[0], touch2 = e.touches[1];
         var currentDist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
 
         if (lastTouchDist) {
-            let newRadius = radius + (currentDist - lastTouchDist) * 0.5;
-            radius = Math.min(Math.max(newRadius, 100), 300); // ✅ Fix Zoom Range
-            
-            init(1); // ✅ Only Apply Zoom
-            applyTransform(odrag); // ✅ Maintain Angle
+            radius += (currentDist - lastTouchDist) * 0.5;
+            radius = Math.min(Math.max(radius, 100), 300);
+            init(1);
+            applyTransform(odrag);
         }
         lastTouchDist = currentDist;
     }
 }, { passive: false });
 
-// 🛑 Reset Zoom & Enable Rotation on Touch End (Fix: Keep Angle Same)
+// 🛑 Reset Zoom & Enable Rotation
 document.addEventListener("touchend", function (e) {
     if (e.touches.length === 0) {
         lastTouchDist = 0;
         isZooming = false;
-        isTwoFingerTouch = false;
-        playSpin(true); // ✅ Resume Rotation
-        applyTransform(odrag); // ✅ Ensure No Angle Change
+        playSpin(true);
+        applyTransform(odrag);
     }
 });
 
 // 🌀 Play/Pause Rotation
 function playSpin(yes) {
-    ospin.style.animationPlayState = yes ? 'running' : 'paused';
+    ospin.style.animationPlayState = yes ? "running" : "paused";
 }
