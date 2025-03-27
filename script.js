@@ -24,6 +24,7 @@ var ground = document.getElementById('ground');
 ground.style.width = radius * 3 + "px";
 ground.style.height = radius * 3 + "px";
 
+// Initialize the positions of the images
 function init(delayTime) {
   for (var i = 0; i < aEle.length; i++) {
     aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px)";
@@ -32,6 +33,7 @@ function init(delayTime) {
   }
 }
 
+// Apply transformation to the container
 function applyTranform(obj) {
   if (tY > 180) tY = 180;
   if (tY < 0) tY = 0;
@@ -45,6 +47,7 @@ function playSpin(yes) {
 
 var sX, sY, nX, nY, desX = 0, desY = 0, tX = 0, tY = 10;
 
+// Auto rotate the carousel
 if (autoRotate) {
   var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
   ospin.style.animation = `${animationName} ${Math.abs(rotateSpeed)}s infinite linear`;
@@ -58,7 +61,7 @@ if (bgMusicURL) {
   `;
 }
 
-// Event for moving carousel with touch and mouse
+// Event to track mouse or touch movement
 document.onpointerdown = function (e) {
   clearInterval(odrag.timer);
   e = e || window.event;
@@ -76,7 +79,7 @@ document.onpointerdown = function (e) {
     sY = nY;
   };
 
-  this.onpointerup = function (e) {
+  this.onpointerup = function () {
     odrag.timer = setInterval(function () {
       desX *= 0.95;
       desY *= 0.95;
@@ -95,21 +98,13 @@ document.onpointerdown = function (e) {
   return false;
 };
 
-// Mouse wheel scroll
-document.onmousewheel = function(e) {
-  e = e || window.event;
-  var d = e.wheelDelta / 20 || -e.detail;
-  radius += d;
-  init(1);
-};
-
-// Touch event handlers for mobile
+// Add touch support for mobile devices
 document.ontouchstart = function(e) {
   clearInterval(odrag.timer);
   e = e || window.event;
   var sX = e.touches[0].clientX, sY = e.touches[0].clientY;
 
-  this.ontouchmove = function (e) {
+  this.ontouchmove = function(e) {
     e = e || window.event;
     var nX = e.touches[0].clientX, nY = e.touches[0].clientY;
     desX = nX - sX;
@@ -121,7 +116,7 @@ document.ontouchstart = function(e) {
     sY = nY;
   };
 
-  this.ontouchend = function () {
+  this.ontouchend = function() {
     odrag.timer = setInterval(function () {
       desX *= 0.95;
       desY *= 0.95;
@@ -138,4 +133,12 @@ document.ontouchstart = function(e) {
   };
 
   return false;
+};
+
+// Mouse wheel zoom functionality (optional)
+document.onmousewheel = function(e) {
+  e = e || window.event;
+  var d = e.wheelDelta / 20 || -e.detail;
+  radius += d;
+  init(1);
 };
