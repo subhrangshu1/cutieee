@@ -4,18 +4,14 @@ var rotateSpeed = -60; // unit: seconds/360 degrees
 var imgWidth = 120; // width of images (unit: px)
 var imgHeight = 170; // height of images (unit: px)
 
-// Link of background music
-// Music autoplay setup
+// Music Autoplay Fix
 var bgMusicURL = 'Kabhi kabhi.mp3';
 var audio = new Audio(bgMusicURL);
 audio.loop = true;
 
 // Try to autoplay with a silent start
-audio.volume = 0;
 audio.play().then(() => {
-    setTimeout(() => {
-        audio.volume = 1; // Increase volume gradually
-    }, 1000);
+    console.log("Music autoplayed successfully.");
 }).catch(() => {
     console.log("Autoplay blocked, waiting for user interaction...");
 });
@@ -23,23 +19,7 @@ audio.play().then(() => {
 // If autoplay is blocked, start when user clicks anywhere
 document.addEventListener("click", function() {
     audio.play();
-}, { once: true });
-
-// Create audio element dynamically
-var audio = document.createElement('audio');
-audio.src = bgMusicURL;
-audio.loop = true; // Loop the music
-audio.autoplay = true; // Try to autoplay
-audio.volume = 0; // Start muted to bypass autoplay block
-
-// Append audio to the page
-document.body.appendChild(audio);
-
-// Gradually increase volume to normal after 1 second
-setTimeout(() => {
-    audio.volume = 1; // Bring volume to full
-    audio.play().catch(error => console.log('Autoplay blocked:', error));
-}, 1000); // Wait 1 second before increasing volume
+}, { once: true }); // Runs only once
 
 // ===================== start =======================
 // animation start after 1000 milliseconds
@@ -50,6 +30,10 @@ var ospin = document.getElementById('spin-container');
 var aImg = ospin.getElementsByTagName('img');
 var aVid = ospin.getElementsByTagName('video');
 var aEle = [...aImg, ...aVid]; // combine 2 arrays
+
+// Make Full-Screen for Mobile
+odrag.style.width = "100vw";
+odrag.style.height = "100vh";
 
 // Size of images
 ospin.style.width = imgWidth + "px";
