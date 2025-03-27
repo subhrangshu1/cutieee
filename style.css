@@ -15,22 +15,25 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    perspective: 1000px;
 }
 
 #spin-container {
     position: absolute;
     transform-style: preserve-3d;
-    width: 120px;
-    height: 160px;
+    width: 300px;
+    height: 300px;
+    animation: spin 20s infinite linear;
 }
 
 #spin-container img, #spin-container video {
     position: absolute;
-    width: 120px;
-    height: 160px;
+    width: 150px;
+    height: 200px;
     border-radius: 10px;
     object-fit: cover;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transform-origin: center;
 }
 
 p {
