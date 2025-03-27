@@ -1,6 +1,6 @@
 var radius = 180; // Circle size
 var autoRotate = true; // Enable auto-rotate
-var rotateSpeed = 80000; // Slower rotation
+var rotateSpeed = 60000; // Slow rotation (60s per full spin)
 var imgWidth = 120, imgHeight = 170; // Image size
 
 // Music autoplay fix
