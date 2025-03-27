@@ -22,7 +22,6 @@ document.addEventListener("click", function() {
 }, { once: true }); // Runs only once
 
 // ===================== start =======================
-// animation start after 1000 milliseconds
 setTimeout(init, 1000);
 
 var odrag = document.getElementById('drag-container');
@@ -73,7 +72,7 @@ if (autoRotate) {
   ospin.style.animation = `${animationName} ${Math.abs(rotateSpeed)}s infinite linear`;
 }
 
-// Setup events
+// Setup events for drag rotation
 document.onpointerdown = function (e) {
   clearInterval(odrag.timer);
   e = e || window.event;
@@ -112,9 +111,40 @@ document.onpointerdown = function (e) {
   return false;
 };
 
-document.onmousewheel = function (e) {
-  e = e || window.event;
-  var d = e.wheelDelta / 20 || -e.detail;
-  radius += d;
-  init(1);
-};
+// 🔥 Zoom In & Zoom Out Functionality 🔥
+
+// Mouse Scroll Zoom (Ctrl + Scroll for Desktop)
+document.addEventListener("wheel", function (e) {
+  if (e.ctrlKey) { // Zoom only when Ctrl key is pressed
+    e.preventDefault();
+    var zoomChange = e.deltaY * -0.1;
+    radius += zoomChange;
+    radius = Math.min(Math.max(radius, 100), 600); // Limit zoom range
+    init(1);
+  }
+});
+
+// Pinch Zoom for Touch Screens
+var lastTouchDist = 0;
+document.addEventListener("touchmove", function (e) {
+  if (e.touches.length == 2) { // Detect two-finger touch
+    e.preventDefault();
+
+    var touch1 = e.touches[0];
+    var touch2 = e.touches[1];
+
+    var currentDist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
+    if (lastTouchDist) {
+      var zoomChange = (currentDist - lastTouchDist) * 0.2;
+      radius += zoomChange;
+      radius = Math.min(Math.max(radius, 100), 600); // Limit zoom range
+      init(1);
+    }
+    lastTouchDist = currentDist;
+  }
+}, { passive: false });
+
+// Reset lastTouchDist when touch ends
+document.addEventListener("touchend", function () {
+  lastTouchDist = 0;
+});
