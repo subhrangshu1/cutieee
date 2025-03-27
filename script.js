@@ -5,8 +5,23 @@ var imgWidth = 120; // width of images (unit: px)
 var imgHeight = 170; // height of images (unit: px)
 
 // Link of background music - set 'null' if you dont want to play background music
-var bgMusicURL = 'Kabhi kabhi.mp3';
+var bgMusicURL = 'Rashid Ali - Kabhi Kabhi Aditi (lyrics)-[AudioTrimmer.com].mp3';
 var bgMusicControls = true; // Show UI music control
+
+// Create audio element dynamically
+var audio = document.createElement('audio');
+audio.src = bgMusicURL;
+audio.loop = true; // Loop the music
+audio.autoplay = true; // Try to autoplay
+if (bgMusicControls) audio.controls = true; // Show controls if needed
+
+// Append audio to the page
+document.getElementById('music-container').appendChild(audio);
+
+// Handle autoplay restriction
+document.addEventListener('click', function() {
+    audio.play().catch(error => console.log('Autoplay blocked:', error));
+}, { once: true }); // Ensures it runs only once
 
 
 
