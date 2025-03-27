@@ -1,4 +1,4 @@
-var radius = 230; // Circle Radius
+var radius = 240; // Circle Radius
 var autoRotate = true; // Enable Auto Rotate
 var rotateSpeed = -3600000000000000; // 🔥 Slowest Rotation (3600 sec = 1 deg per 10 sec)
 var imgWidth = 120, imgHeight = 170; // Image Size
