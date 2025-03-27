@@ -58,7 +58,7 @@ if (bgMusicURL) {
   `;
 }
 
-// Mouse event handlers
+// Event for moving carousel with touch and mouse
 document.onpointerdown = function (e) {
   clearInterval(odrag.timer);
   e = e || window.event;
@@ -103,7 +103,7 @@ document.onmousewheel = function(e) {
   init(1);
 };
 
-// Touch event handlers
+// Touch event handlers for mobile
 document.ontouchstart = function(e) {
   clearInterval(odrag.timer);
   e = e || window.event;
