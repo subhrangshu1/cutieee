@@ -5,7 +5,25 @@ var imgWidth = 120; // width of images (unit: px)
 var imgHeight = 170; // height of images (unit: px)
 
 // Link of background music
+// Music autoplay setup
 var bgMusicURL = 'Kabhi kabhi.mp3';
+var audio = new Audio(bgMusicURL);
+audio.loop = true;
+
+// Try to autoplay with a silent start
+audio.volume = 0;
+audio.play().then(() => {
+    setTimeout(() => {
+        audio.volume = 1; // Increase volume gradually
+    }, 1000);
+}).catch(() => {
+    console.log("Autoplay blocked, waiting for user interaction...");
+});
+
+// If autoplay is blocked, start when user clicks anywhere
+document.addEventListener("click", function() {
+    audio.play();
+}, { once: true });
 
 // Create audio element dynamically
 var audio = document.createElement('audio');
