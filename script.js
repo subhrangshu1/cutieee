@@ -1,7 +1,7 @@
 var radius = 240; // Circle Radius
 var autoRotate = true; // Enable Auto Rotate
-var rotateSpeed = -36000000000000000000000000000000000000; // 🔥 Slowest Rotation (36000 sec = 1 deg per 100 sec)
-var imgWidth = 100, imgHeight = 140; // Image Size
+var rotateSpeed = -36000; // Slowest Rotation (1 degree per 100 sec)
+var imgWidth = 120, imgHeight = 170; // Image Size
 
 // 🎵 AutoPlay Music Fix
 var bgMusicURL = 'Kabhi kabhi.mp3';
@@ -53,11 +53,13 @@ if (autoRotate) {
 }
 
 // 🖱️ Mouse Drag Rotate
-var sX, sY, nX, nY, desX = 0, desY = 0, tX = 0, tY = 10, isZooming = false, isTwoFingerTouch = false;
+var sX, sY, nX, nY, desX = 0, desY = 0, tX = 0, tY = 10, isZooming = false, isTwoFingerTouch = false, rotationTimeout;
 
 document.onpointerdown = function (e) {
     if (isZooming || isTwoFingerTouch) return; // Disable Rotation During Zoom or 2-Finger Touch
     clearInterval(odrag.timer);
+    clearTimeout(rotationTimeout); // 🛑 Stop Rotation Timer
+    playSpin(false); // Stop Rotation
     sX = e.clientX;
     sY = e.clientY;
 
@@ -81,10 +83,10 @@ document.onpointerdown = function (e) {
             tX += desX * 0.1;
             tY += desY * 0.1;
             applyTransform(odrag);
-            playSpin(false);
             if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
                 clearInterval(odrag.timer);
-                playSpin(true);
+                // 🔥 4 sec delay before restarting rotation
+                rotationTimeout = setTimeout(() => playSpin(true), 4000);
             }
         }, 17);
         document.onpointermove = document.onpointerup = null;
@@ -101,7 +103,7 @@ document.addEventListener("wheel", function (e) {
     }
 }, { passive: false });
 
-// 📱 Touch Zoom (Pinch Gesture) & 2-Finger Rotation Stop
+// 📱 Touch Zoom (Pinch Gesture)
 var lastTouchDist = 0;
 document.addEventListener("touchmove", function (e) {
     if (e.touches.length === 2) {
@@ -109,6 +111,7 @@ document.addEventListener("touchmove", function (e) {
         isZooming = true; // Disable Rotation
         isTwoFingerTouch = true;
         playSpin(false); // Stop Rotation
+        clearTimeout(rotationTimeout); // Stop Auto-Rotation Timer
 
         var touch1 = e.touches[0], touch2 = e.touches[1];
         var currentDist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
@@ -122,13 +125,16 @@ document.addEventListener("touchmove", function (e) {
     }
 }, { passive: false });
 
-// 🛑 Reset Zoom & Enable Rotation on Touch End
+// 🛑 Reset Zoom & Enable Rotation on Touch End (After 4 Sec)
 document.addEventListener("touchend", function (e) {
     if (e.touches.length === 0) {  // 🛑 Only enable rotation if no fingers are touching
         lastTouchDist = 0;
         isZooming = false;
         isTwoFingerTouch = false;
-        playSpin(true); // Restart Rotation
+        
+        setTimeout(() => {  // 🔥 4 Sec Delay Before Restarting Rotation
+            playSpin(true);
+        }, 4000);
     }
 });
 
