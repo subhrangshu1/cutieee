@@ -1,10 +1,10 @@
 var radius = 240; // how big of the radius
 var autoRotate = true; // auto rotate or not
-var rotateSpeed = -180; // unit: seconds/360 degrees (slower)
+var rotateSpeed = -60; // unit: seconds/360 degrees
 var imgWidth = 120; // width of images (unit: px)
 var imgHeight = 170; // height of images (unit: px)
 
-// Link of background music - set 'null' if you dont want to play background music
+// Link of background music - set 'null' if you don't want to play background music
 var bgMusicURL = 'https://api.soundcloud.com/tracks/143041228/stream?client_id=587aa2d384f7333a886010d5f52f302a';
 var bgMusicControls = true; // Show UI music control
 
@@ -33,8 +33,9 @@ function init(delayTime) {
 }
 
 function applyTranform(obj) {
-  if (tY > 180) tY = 180;
-  if (tY < 0) tY = 0;
+  if(tY > 180) tY = 180;
+  if(tY < 0) tY = 0;
+
   obj.style.transform = "rotateX(" + (-tY) + "deg) rotateY(" + (tX) + "deg)";
 }
 
@@ -51,10 +52,10 @@ if (autoRotate) {
 
 if (bgMusicURL) {
   document.getElementById('music-container').innerHTML += `
-<audio src="${bgMusicURL}" ${bgMusicControls ? 'controls' : ''} autoplay loop>
-<p>If you are reading this, it is because your browser does not support the audio element.</p>
-</audio>
-`;
+    <audio src="${bgMusicURL}" ${bgMusicControls ? 'controls' : ''} autoplay loop>
+      <p>If you are reading this, it is because your browser does not support the audio element.</p>
+    </audio>
+  `;
 }
 
 document.onpointerdown = function (e) {
@@ -67,8 +68,8 @@ document.onpointerdown = function (e) {
     var nX = e.clientX, nY = e.clientY;
     desX = nX - sX;
     desY = nY - sY;
-    tX += desX * 0.05; // slower touch response
-    tY += desY * 0.05; // slower touch response
+    tX += desX * 0.1;
+    tY += desY * 0.1;
     applyTranform(odrag);
     sX = nX;
     sY = nY;
@@ -78,8 +79,8 @@ document.onpointerdown = function (e) {
     odrag.timer = setInterval(function () {
       desX *= 0.95;
       desY *= 0.95;
-      tX += desX * 0.05; // slower touch response
-      tY += desY * 0.05; // slower touch response
+      tX += desX * 0.1;
+      tY += desY * 0.1;
       applyTranform(odrag);
       playSpin(false);
       if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
@@ -93,7 +94,7 @@ document.onpointerdown = function (e) {
   return false;
 };
 
-document.onmousewheel = function (e) {
+document.onmousewheel = function(e) {
   e = e || window.event;
   var d = e.wheelDelta / 20 || -e.detail;
   radius += d;
