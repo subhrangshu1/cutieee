@@ -1,7 +1,7 @@
-var radius = 180; // 🔴 Normal Circle Radius
+var radius = 150; // 🔴 Normal Circle Radius
 var autoRotate = true; // Enable Auto Rotate
 var rotateSpeed = -36000; // 🔥 Slowest Rotation
-var imgWidth = 100, imgHeight = 140; // 🔴 Normal Image Size
+var imgWidth = 80, imgHeight = 100; // 🔴 Smaller Image Size
 
 // 🎵 AutoPlay Music Fix
 var bgMusicURL = 'Kabhi kabhi.mp3';
@@ -96,7 +96,7 @@ document.addEventListener("wheel", function (e) {
     if (e.ctrlKey) {
         e.preventDefault();
         radius += e.deltaY * -0.1;
-        radius = Math.min(Math.max(radius, 120), 400); // 🔴 Normal Zoom Limits
+        radius = Math.min(Math.max(radius, 100), 300); // 🔴 Normal Zoom Limits
         init(1);
     }
 }, { passive: false });
@@ -115,7 +115,7 @@ document.addEventListener("touchmove", function (e) {
 
         if (lastTouchDist) {
             radius += (currentDist - lastTouchDist) * 0.5;
-            radius = Math.min(Math.max(radius, 120), 400);
+            radius = Math.min(Math.max(radius, 100), 300);
             init(1);
         }
         lastTouchDist = currentDist;
