@@ -1,7 +1,7 @@
 var radius = 150; // ✅ Adjusted Circle Radius
 var autoRotate = true; // Enable Auto Rotate
 var rotateSpeed = -36000; // 🔥 Slowest Rotation
-var imgWidth = 80, imgHeight = 110; // ✅ Adjusted Image Size
+var imgWidth = 100, imgHeight = 140; // ✅ Adjusted Image Size
 
 // 🎵 AutoPlay Music Fix
 var bgMusicURL = 'Kabhi kabhi.mp3';
