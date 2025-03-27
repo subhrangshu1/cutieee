@@ -53,16 +53,16 @@ if (autoRotate) {
 }
 
 // 🖱️ Mouse Drag Rotate
-var sX, sY, nX, nY, desX = 0, desY = 0, tX = 0, tY = 10, isZooming = false;
+var sX, sY, nX, nY, desX = 0, desY = 0, tX = 0, tY = 10, isZooming = false, isTwoFingerTouch = false;
 
 document.onpointerdown = function (e) {
-    if (isZooming) return; // Disable Rotation During Zoom
+    if (isZooming || isTwoFingerTouch) return; // Disable Rotation During Zoom or 2-Finger Touch
     clearInterval(odrag.timer);
     sX = e.clientX;
     sY = e.clientY;
 
     document.onpointermove = function (e) {
-        if (isZooming) return;
+        if (isZooming || isTwoFingerTouch) return;
         nX = e.clientX;
         nY = e.clientY;
         desX = nX - sX;
@@ -107,6 +107,8 @@ document.addEventListener("touchmove", function (e) {
     if (e.touches.length === 2) {
         e.preventDefault();
         isZooming = true; // Disable Rotation
+        isTwoFingerTouch = true;
+        playSpin(false); // Stop Rotation
 
         var touch1 = e.touches[0], touch2 = e.touches[1];
         var currentDist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
@@ -120,10 +122,12 @@ document.addEventListener("touchmove", function (e) {
     }
 }, { passive: false });
 
-// 🛑 Reset Zoom Mode
+// 🛑 Reset Zoom & Enable Rotation on Touch End
 document.addEventListener("touchend", function () {
     lastTouchDist = 0;
     isZooming = false;
+    if (!isTwoFingerTouch) playSpin(true); // Restart Rotation if not using 2 fingers
+    isTwoFingerTouch = false;
 });
 
 // 🌀 Play/Pause Rotation
