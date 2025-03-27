@@ -1,7 +1,7 @@
 body {
     margin: 0;
     overflow: hidden;
-    background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+    background: black;  /* Black Background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,15 +15,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1200px;
+    perspective: 2000px; /* Increased for better 3D */
 }
 
 #spin-container {
     position: absolute;
     transform-style: preserve-3d;
-    width: 350px;
-    height: 350px;
-    animation: spin 50s infinite linear; /* Slower Rotation */
+    width: 300px;
+    height: 300px;
+    animation: spin 40s infinite linear; /* Slower Rotation */
 }
 
 #spin-container img {
@@ -32,7 +32,7 @@ body {
     height: 170px;
     border-radius: 10px;
     object-fit: cover;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(255,255,255,0.2);
     transform-origin: center;
 }
 
@@ -44,7 +44,7 @@ p {
     font-size: 20px;
     font-weight: bold;
     color: white;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 10px rgba(255,255,255,0.5);
 }
 
 @keyframes spin {
