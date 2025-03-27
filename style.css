@@ -1,17 +1,11 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    background-color: black;
+    margin: 0;
     overflow: hidden;
+    background: linear-gradient(90deg, #ff9a9e, #fad0c4);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 100vh;
-    width: 100vw;
 }
 
 #drag-container {
@@ -19,47 +13,42 @@ body {
     width: 100vw;
     height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
-    perspective: 1000px;
+    align-items: center;
 }
 
 #spin-container {
     position: absolute;
-    width: 80px;
-    height: 110px;
     transform-style: preserve-3d;
-    animation: spin 60s infinite linear;
+    width: 120px;
+    height: 160px;
 }
 
-#spin-container img {
-    width: 80px;
-    height: 110px;
+#spin-container img, #spin-container video {
     position: absolute;
-    top: 0;
-    left: 0;
-    transform-origin: center;
-    transition: transform 1s;
-    object-fit: cover;
+    width: 120px;
+    height: 160px;
     border-radius: 10px;
-    border: 2px solid white;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-#ground {
+p {
     position: absolute;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 30%, transparent 70%);
-    border-radius: 50%;
-    bottom: -50px;
-    transform: rotateX(90deg);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
 }
 
 @keyframes spin {
-    from {
-        transform: rotateY(0deg);
-    }
-    to {
-        transform: rotateY(360deg);
-    }
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+@keyframes spinRevert {
+    from { transform: rotateY(360deg); }
+    to { transform: rotateY(0deg); }
 }
