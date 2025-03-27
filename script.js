@@ -5,8 +5,19 @@ var imgWidth = 120; // width of images (unit: px)
 var imgHeight = 170; // height of images (unit: px)
 
 // Link of background music - set 'null' if you dont want to play background music
-var bgMusicURL = 'Kabhi kabhi.mp3'; // Replace with the correct path to your file
-var bgMusicControls = true; // Show UI music control
+var bgMusicURL = 'Kabhi kabhi.mp3'; // Replace with your music file path
+var bgMusicControls = false; // No controls for autoplay
+
+// Create the audio element but don't start it yet
+var audioElement = new Audio(bgMusicURL);
+audioElement.loop = true; // Loop the music
+
+// Add click event to start the music when the user clicks anywhere
+document.addEventListener('click', function() {
+  if (audioElement.paused) {
+    audioElement.play(); // Start the music when the page is clicked
+  }
+});
 
 // add background music
 if (bgMusicURL) {
