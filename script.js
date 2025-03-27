@@ -1,6 +1,6 @@
 var radius = 240; // Circle Radius
 var autoRotate = true; // Enable Auto Rotate
-var rotateSpeed = -36000; // 🔥 Slowest Rotation (3600 sec = 1 deg per 10 sec)
+var rotateSpeed = -36000; // 🔥 Slowest Rotation (36000 sec = 1 deg per 100 sec)
 var imgWidth = 120, imgHeight = 170; // Image Size
 
 // 🎵 AutoPlay Music Fix
@@ -101,7 +101,7 @@ document.addEventListener("wheel", function (e) {
     }
 }, { passive: false });
 
-// 📱 Touch Zoom (Pinch Gesture)
+// 📱 Touch Zoom (Pinch Gesture) & 2-Finger Rotation Stop
 var lastTouchDist = 0;
 document.addEventListener("touchmove", function (e) {
     if (e.touches.length === 2) {
@@ -123,11 +123,13 @@ document.addEventListener("touchmove", function (e) {
 }, { passive: false });
 
 // 🛑 Reset Zoom & Enable Rotation on Touch End
-document.addEventListener("touchend", function () {
-    lastTouchDist = 0;
-    isZooming = false;
-    if (!isTwoFingerTouch) playSpin(true); // Restart Rotation if not using 2 fingers
-    isTwoFingerTouch = false;
+document.addEventListener("touchend", function (e) {
+    if (e.touches.length === 0) {  // 🛑 Only enable rotation if no fingers are touching
+        lastTouchDist = 0;
+        isZooming = false;
+        isTwoFingerTouch = false;
+        playSpin(true); // Restart Rotation
+    }
 });
 
 // 🌀 Play/Pause Rotation
