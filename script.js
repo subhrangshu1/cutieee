@@ -5,7 +5,17 @@ var imgWidth = 120; // width of images (unit: px)
 var imgHeight = 170; // height of images (unit: px)
 
 // Link of background music - set 'null' if you dont want to play background music
-var bgMusicURL = 'https://open.spotify.com/album/7J5iE51Mk97Mf0BjjwYXUZ?si=rp195oOcTzGzku7K-iaaNQ';
+// Link of background music - Use Spotify Embed Player instead of direct link
+var bgMusicURL = 'https://open.spotify.com/embed/album/7J5iE51Mk97Mf0BjjwYXUZ?utm_source=generator';
+
+if (bgMusicURL) {
+  document.getElementById('music-container').innerHTML = `
+    <iframe style="border-radius:12px" src="${bgMusicURL}" width="300" height="80" frameborder="0" allowfullscreen="" 
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+  `;
+}
+
+
 var bgMusicControls = true; // Show UI music control
 
 
