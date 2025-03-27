@@ -1,6 +1,6 @@
 var radius = 240; // Circle Radius
 var autoRotate = true; // Enable Auto Rotate
-var rotateSpeed = -36000; // 🔥 Slowest Rotation (36000 sec = 1 deg per 100 sec)
+var rotateSpeed = -36000000000000000000000000000000000000; // 🔥 Slowest Rotation (36000 sec = 1 deg per 100 sec)
 var imgWidth = 100, imgHeight = 140; // Image Size
 
 // 🎵 AutoPlay Music Fix
