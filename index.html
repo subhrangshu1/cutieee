@@ -30,6 +30,27 @@
     <audio id="bg-music" src="Kabhi kabhi.mp3" autoplay loop></audio>
 </div>
 
+<script>
+    var radius = 240;
+    var spinContainer = document.getElementById('spin-container');
+
+    document.addEventListener("wheel", function(event) {
+        if (event.deltaY > 0) {
+            radius += 20; // Zoom Out
+        } else {
+            radius -= 20; // Zoom In
+        }
+        updateZoom();
+    });
+
+    function updateZoom() {
+        var images = spinContainer.getElementsByTagName('img');
+        for (var i = 0; i < images.length; i++) {
+            images[i].style.transform = `rotateY(${i * (360 / images.length)}deg) translateZ(${radius}px)`;
+        }
+    }
+</script>
+
 <script src="./script.js"></script>
 </body>
 </html>
