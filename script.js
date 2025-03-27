@@ -12,16 +12,16 @@ var audio = document.createElement('audio');
 audio.src = bgMusicURL;
 audio.loop = true; // Loop the music
 audio.autoplay = true; // Try to autoplay
-audio.muted = true; // Mute initially to allow autoplay
+audio.volume = 0; // Start muted to bypass autoplay block
 
 // Append audio to the page
 document.body.appendChild(audio);
 
-// Unmute and play when the user interacts
-document.addEventListener('click', function () {
-    audio.muted = false;
+// Gradually increase volume to normal after 1 second
+setTimeout(() => {
+    audio.volume = 1; // Bring volume to full
     audio.play().catch(error => console.log('Autoplay blocked:', error));
-}, { once: true }); // Ensures it runs only once
+}, 1000); // Wait 1 second before increasing volume
 
 // ===================== start =======================
 // animation start after 1000 milliseconds
