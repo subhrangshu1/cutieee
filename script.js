@@ -1,13 +1,12 @@
 var radius = 180; // Circle size
-var autoRotate = true; // Enable auto-rotate
-var rotateSpeed = 60000; // Slow rotation (60s per full spin)
+var autoRotate = true; // Auto-Rotate ENABLED
+var rotateSpeed = 30000; // 30s per full spin (Smooth)
 var imgWidth = 120, imgHeight = 170; // Image size
 
 // Music autoplay fix
 var bgMusic = document.getElementById('bg-music');
-bgMusic.volume = 0.5; // Lower volume
+bgMusic.volume = 0.5; 
 
-// Prevent audio from failing to autoplay
 document.addEventListener("click", () => bgMusic.play(), { once: true });
 
 // Initialization
@@ -31,22 +30,20 @@ function init(delayTime) {
     });
 }
 
-// Auto Rotate
+// Auto Rotate (Enabled)
 if (autoRotate) {
-    ospin.style.animation = `spin ${Math.abs(rotateSpeed)}s infinite linear`;
+    ospin.style.animation = `spin ${rotateSpeed}ms infinite linear`;
 }
 
 // Mouse Drag Rotate
-var sX, sY, nX, nY, desX = 0, desY = 0, tX = 0, tY = 10, isZooming = false;
+var sX, sY, nX, nY, desX = 0, desY = 0, tX = 0, tY = 10;
 
 document.onpointerdown = function (e) {
-    if (isZooming) return;
     clearInterval(odrag.timer);
     sX = e.clientX;
     sY = e.clientY;
 
     document.onpointermove = function (e) {
-        if (isZooming) return;
         nX = e.clientX;
         nY = e.clientY;
         desX = (nX - sX) * 0.05; // Slower movement
