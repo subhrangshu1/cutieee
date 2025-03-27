@@ -5,7 +5,7 @@ var imgWidth = 120; // width of images (unit: px)
 var imgHeight = 170; // height of images (unit: px)
 
 // Link of background music - set 'null' if you dont want to play background music
-var bgMusicURL = 'https://youtu.be/hO0VWYeaBG8?feature=shared';
+var bgMusicURL = 'https://open.spotify.com/album/7J5iE51Mk97Mf0BjjwYXUZ?si=rp195oOcTzGzku7K-iaaNQ';
 var bgMusicControls = true; // Show UI music control
 
 
