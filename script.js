@@ -33,8 +33,8 @@ function init(delayTime) {
 }
 
 function applyTranform(obj) {
-  if(tY > 180) tY = 180;
-  if(tY < 0) tY = 0;
+  if (tY > 180) tY = 180;
+  if (tY < 0) tY = 0;
 
   obj.style.transform = "rotateX(" + (-tY) + "deg) rotateY(" + (tX) + "deg)";
 }
@@ -58,6 +58,7 @@ if (bgMusicURL) {
   `;
 }
 
+// Mouse event handlers
 document.onpointerdown = function (e) {
   clearInterval(odrag.timer);
   e = e || window.event;
@@ -94,9 +95,47 @@ document.onpointerdown = function (e) {
   return false;
 };
 
+// Mouse wheel scroll
 document.onmousewheel = function(e) {
   e = e || window.event;
   var d = e.wheelDelta / 20 || -e.detail;
   radius += d;
   init(1);
+};
+
+// Touch event handlers
+document.ontouchstart = function(e) {
+  clearInterval(odrag.timer);
+  e = e || window.event;
+  var sX = e.touches[0].clientX, sY = e.touches[0].clientY;
+
+  this.ontouchmove = function (e) {
+    e = e || window.event;
+    var nX = e.touches[0].clientX, nY = e.touches[0].clientY;
+    desX = nX - sX;
+    desY = nY - sY;
+    tX += desX * 0.1;
+    tY += desY * 0.1;
+    applyTranform(odrag);
+    sX = nX;
+    sY = nY;
+  };
+
+  this.ontouchend = function () {
+    odrag.timer = setInterval(function () {
+      desX *= 0.95;
+      desY *= 0.95;
+      tX += desX * 0.1;
+      tY += desY * 0.1;
+      applyTranform(odrag);
+      playSpin(false);
+      if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
+        clearInterval(odrag.timer);
+        playSpin(true);
+      }
+    }, 17);
+    this.ontouchmove = this.ontouchend = null;
+  };
+
+  return false;
 };
