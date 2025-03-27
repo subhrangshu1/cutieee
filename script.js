@@ -135,7 +135,7 @@ document.addEventListener("touchmove", function (e) {
 
     var currentDist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
     if (lastTouchDist) {
-      var zoomChange = (currentDist - lastTouchDist) * 0.2;
+      var zoomChange = (currentDist - lastTouchDist) * 0.5;
       radius += zoomChange;
       radius = Math.min(Math.max(radius, 100), 600); // Limit zoom range
       init(1);
