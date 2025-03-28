@@ -16,7 +16,7 @@ display: flex;
 background: #111;
 perspective: 1500px;
 transform-style: preserve-3d;
-scale: 1.2;
+scale: 1.4;
 }
 
 #drag-container, #spin-container {
