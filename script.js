@@ -1,14 +1,12 @@
 var radius = 300; // how big of the radius
 var autoRotate = true; // auto rotate or not
 var rotateSpeed = -60; // unit: seconds/360 degrees
-var imgWidth = 100; // width of images (unit: px)
-var imgHeight = 140; // height of images (unit: px)
+var imgWidth = 120; // width of images (unit: px)
+var imgHeight = 170; // height of images (unit: px)
 
 // Link of background music - set 'null' if you dont want to play background music
 var bgMusicURL = 'https://api.soundcloud.com/tracks/143041228/stream?client_id=587aa2d384f7333a886010d5f52f302a';
 var bgMusicControls = true; // Show UI music control
-
-
 
 // ===================== start =======================
 // animation start after 1000 miliseconds
@@ -111,7 +109,7 @@ document.onpointerdown = function (e) {
 
 document.onmousewheel = function(e) {
   e = e || window.event;
-  var d = e.wheelDelta / 20 || -e.detail;
+  var d = e.wheelDelta / 10 || -e.detail; // Increase zoom speed
   radius += d;
   init(1);
 };
