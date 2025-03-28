@@ -59,9 +59,8 @@ var sX, sY, nX, nY, desX = 0,
 // auto spin
 if (autoRotate) {
   var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
-  ospin.style.animation = ${animationName} ${Math.abs(rotateSpeed)}s infinite linear;
+ospin.style.animation = animationName + " " + Math.abs(rotateSpeed) + "s infinite linear";
 }
-
 // add background music
 if (bgMusicURL) {
   document.getElementById('music-container').innerHTML += 
