@@ -1,8 +1,8 @@
 var radius = 300; // how big of the radius
 var autoRotate = true; // auto rotate or not
 var rotateSpeed = -120; // unit: seconds/360 degrees
-var imgWidth = 150; // width of images (unit: px)
-var imgHeight = 200; // height of images (unit: px)
+var imgWidth = 130; // width of images (unit: px)
+var imgHeight = 180; // height of images (unit: px)
 
 // Link of background music - set 'null' if you dont want to play background music
 var bgMusicURL = 'https://api.soundcloud.com/tracks/143041228/stream?client_id=587aa2d384f7333a886010d5f52f302a';
@@ -31,7 +31,7 @@ ground.style.height = radius * 3 + "px";
 
 function init(delayTime) {
   for (var i = 0; i < aEle.length; i++) {
-    aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px)";
+    aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + (radius * 1.5) + "px)";
     aEle[i].style.transition = "transform 1s";
     aEle[i].style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
   }
