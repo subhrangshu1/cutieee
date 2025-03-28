@@ -1,8 +1,8 @@
-var radius = 300; // how big of the radius
+var radius = 240; // how big of the radius
 var autoRotate = true; // auto rotate or not
-var rotateSpeed = -120; // unit: seconds/360 degrees
-var imgWidth = 130; // width of images (unit: px)
-var imgHeight = 180; // height of images (unit: px)
+var rotateSpeed = -60; // unit: seconds/360 degrees
+var imgWidth = 120; // width of images (unit: px)
+var imgHeight = 170; // height of images (unit: px)
 
 // Link of background music - set 'null' if you dont want to play background music
 var bgMusicURL = 'https://api.soundcloud.com/tracks/143041228/stream?client_id=587aa2d384f7333a886010d5f52f302a';
@@ -31,8 +31,7 @@ ground.style.height = radius * 3 + "px";
 
 function init(delayTime) {
   for (var i = 0; i < aEle.length; i++) {
-    aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(500px)";
-
+    aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px)";
     aEle[i].style.transition = "transform 1s";
     aEle[i].style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
   }
@@ -59,15 +58,16 @@ var sX, sY, nX, nY, desX = 0,
 // auto spin
 if (autoRotate) {
   var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
-ospin.style.animation = animationName + " " + Math.abs(rotateSpeed) + "s infinite linear";
+  ospin.style.animation = `${animationName} ${Math.abs(rotateSpeed)}s infinite linear`;
 }
+
 // add background music
 if (bgMusicURL) {
-  document.getElementById('music-container').innerHTML += 
+  document.getElementById('music-container').innerHTML += `
 <audio src="${bgMusicURL}" ${bgMusicControls? 'controls': ''} autoplay loop>
 <p>If you are reading this, it is because your browser does not support the audio element.</p>
 </audio>
-;
+`;
 }
 
 // setup events
