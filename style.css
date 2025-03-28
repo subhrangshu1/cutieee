@@ -67,8 +67,10 @@ color: #fff;
 }
 
 #ground {
-width: 1200px;
-height: 1200px;
+  width: 1200px;
+  height: 1200px;
+  top: 70%;
+
 position: absolute;
 top: 100%;
 left: 50%;
