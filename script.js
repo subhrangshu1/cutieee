@@ -8,12 +8,12 @@ var imgHeight = 170; // height of images (unit: px)
 document.getElementById('music-container').remove();
 
 // Add new background music
-var audio = new Audio('Kabhi kabhi.mp3'); // Replace with correct path if needed
+var audio = new Audio('Kabhi_Kabhi.mp3'); // Replace with correct path if needed
 audio.volume = 0.1; // Start with low volume
 audio.loop = true;
 
-document.addEventListener('click', function() {
-  audio.play(); // Play music on user interaction
+document.getElementById('click-me').addEventListener('click', function() {
+  audio.play(); // Play music on click of [Click Me]
   let volumeIncrease = setInterval(() => {
     if (audio.volume < 1) {
       audio.volume = Math.min(audio.volume + 0.1, 1);
