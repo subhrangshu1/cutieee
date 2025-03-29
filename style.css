@@ -61,7 +61,7 @@ box-shadow: 0 0 15px #fffd;
     position: absolute;
     top: 100%; /* Pehle 100% tha, ise 80% ya 85% kar ke dekho */
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) rotateX(90deg);
     font-size: 30px; /* Size adjust karne ke liye */
     font-weight: bold;
     color: white;
