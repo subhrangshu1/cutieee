@@ -1,54 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Play on Button Click</title>
-    <style>
-        #click-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-15deg); /* Rotate and center */
-            padding: 10px 20px;
-            font-size: 18px;
-            font-weight: bold;
-            background-color: red;
-            color: white;
-            border: none;
-            cursor: pointer;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        }
-        #click-button:hover {
-            background-color: darkred;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Aditiiiii</title>
+  <link rel="stylesheet" href="./style.css">
+
 </head>
 <body>
+<!-- partial:index.partial.html -->
+<div id="drag-container">
+  <div id="spin-container">
 
-    <button id="click-button">Click Me</button>
 
-    <script>
-        var audio = new Audio('Kabhi_Kabhi.mp3'); // Ensure correct file path
-        audio.volume = 0.1; // Start with low volume
-        audio.loop = true;
 
-        document.getElementById('click-button').addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevents any other unwanted triggers
-            audio.play().then(() => {
-                console.log("Audio started playing");
-                let volumeIncrease = setInterval(() => {
-                    if (audio.volume < 1) {
-                        audio.volume = Math.min(audio.volume + 0.1, 1);
-                    } else {
-                        clearInterval(volumeIncrease);
-                    }
-                }, 500);
-            }).catch(error => {
-                console.log("Error playing audio:", error);
-            });
-        }, { once: true }); // Ensures it triggers only once
-    </script>
+
+
+
+
+    <img src="1.jpg" alt="">
+    <img src="2.jpg" alt="">
+    <img src="3.jpg" alt="">
+    <img src="4.jpg" alt="">
+    <img src="5.jpg" alt="">
+    <img src="6.jpg" alt="">
+    <img src="7.jpg" alt="">
+
+
+
+    <!-- Text at center of ground -->
+    <p>My Angry Bird<mark>[Click Me]</mark></p>
+  </div>
+  <div id="ground"></div>
+</div>
+
+<div id="music-container"></div>
+
+
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<!-- partial -->
+<script  src="./script.js"></script>
 
 </body>
-</html>
