@@ -40,12 +40,12 @@ transform-style: preserve-3d;
 position: absolute;
 left: 0;
 top: 0;
-max-width: 150%;
-max-height: 200px;
+max-width: 200%;
+max-height: 250px;
 @media (max-width: 768px) {
     #ground {
-        width: 600px;
-        height: 600px;
+        width: 700px;
+        height: 700px;
     }
 }
 
