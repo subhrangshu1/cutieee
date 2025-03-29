@@ -8,7 +8,7 @@ var imgHeight = 170; // height of images (unit: px)
 document.getElementById('music-container').remove();
 
 // Add new background music
-var audio = new Audio('Kabhi_Kabhi.mp3'); // Ensure the file exists and has the correct path
+var audio = new Audio('Kabhi kabhi.mp3'); // Ensure the file exists and has the correct path
 audio.volume = 0.1; // Start with low volume
 audio.loop = true;
 
