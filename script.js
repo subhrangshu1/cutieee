@@ -9,9 +9,19 @@ document.getElementById('music-container').remove();
 
 // Add new background music
 var audio = new Audio('Kabhi kabhi.mp3'); // Replace with correct path if needed
-audio.autoplay = true;
+audio.volume = 0.1; // Start with low volume
 audio.loop = true;
-audio.play();
+
+document.addEventListener('click', function() {
+  audio.play(); // Play music on user interaction
+  let volumeIncrease = setInterval(() => {
+    if (audio.volume < 1) {
+      audio.volume = Math.min(audio.volume + 0.1, 1);
+    } else {
+      clearInterval(volumeIncrease);
+    }
+  }, 500);
+}, { once: true }); // Ensures it triggers only once
 
 // ===================== start =======================
 // animation start after 1000 miliseconds
