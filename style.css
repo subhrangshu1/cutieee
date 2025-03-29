@@ -57,17 +57,17 @@ box-shadow: 0 0 15px #fffd;
 }
 
 #drag-container p {
-font-family: Serif;
-position: absolute;
-  font-size: 30px; /* Pehle 50px tha, ise 30px ya aur bada kar sakte ho */
-    font-weight: bold; /* Text ko aur highlight karne ke liye */
-top: 50%; 
+    font-family: Serif;
+    position: absolute;
+    top: 80%; /* Pehle 100% tha, ise 80% ya 85% kar ke dekho */
     left: 50%;
     transform: translate(-50%, -50%);
+    font-size: 30px; /* Size adjust karne ke liye */
+    font-weight: bold;
+    color: white;
     text-align: center;
--webkit-transform: translate(-50%,-50%) rotateX(90deg);
-color: #fff;
 }
+
 
 #ground {
 width: 1200px;
