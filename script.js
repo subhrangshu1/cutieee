@@ -1,8 +1,8 @@
-var radius = 300; // how big of the radius
+var radius = 240; // how big of the radius
 var autoRotate = true; // auto rotate or not
-var rotateSpeed = -6000; // unit: seconds/360 degrees
-var imgWidth = 200; // width of images (unit: px)
-var imgHeight = 260; // height of images (unit: px)
+var rotateSpeed = -60; // unit: seconds/360 degrees
+var imgWidth = 120; // width of images (unit: px)
+var imgHeight = 170; // height of images (unit: px)
 
 // Remove background music container
 document.getElementById('music-container').remove();
@@ -43,20 +43,12 @@ ground.style.width = radius * 3 + "px";
 ground.style.height = radius * 3 + "px";
 
 function init(delayTime) {
-  let angleStep = 360 / aEle.length; // Har image ke beech equal angle difference
-  
   for (var i = 0; i < aEle.length; i++) {
-    let extraOffset = (aEle[i].naturalWidth / aEle[i].naturalHeight > 1.5) ? 30 : 0; 
-    let angle = i * angleStep;
-    let x = Math.sin(angle * Math.PI / 180) * radius;
-    let z = Math.cos(angle * Math.PI / 180) * radius;
-
-    aEle[i].style.transform = `translateX(${x}px) translateZ(${z}px) translateY(${extraOffset}px) rotateY(${angle}deg)`;
+    aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px)";
     aEle[i].style.transition = "transform 1s";
     aEle[i].style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
   }
 }
-
 
 function applyTranform(obj) {
   if(tY > 180) tY = 180;
@@ -77,9 +69,7 @@ var sX, sY, nX, nY, desX = 0,
 if (autoRotate) {
   var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
   ospin.style.animation = `${animationName} ${Math.abs(rotateSpeed)}s infinite linear`;
-  ospin.style.animationPlayState = "running";
 }
-
 
 // setup events
 document.onpointerdown = function (e) {
