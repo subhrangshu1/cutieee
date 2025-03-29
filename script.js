@@ -12,8 +12,8 @@ var audio = new Audio('Kabhi kabhi.mp3'); // Replace with correct path if needed
 audio.volume = 0.1; // Start with low volume
 audio.loop = true;
 
-document.getElementById('click-me').addEventListener('click', function() {
-  audio.play(); // Play music on click of [Click Me]
+document.addEventListener('click', function() {
+  audio.play(); // Play music on user interaction
   let volumeIncrease = setInterval(() => {
     if (audio.volume < 1) {
       audio.volume = Math.min(audio.volume + 0.1, 1);
