@@ -1,20 +1,18 @@
-var radius = 240; // Default radius
+var radius = 240;
 var autoRotate = true;
 var rotateSpeed = -60;
 var imgWidth = 120;
 var imgHeight = 170;
 
-// Gesture Variables
-var lastTouchDist = 0;
-var isDragging = false;
-var lastX = 0, lastY = 0;
-var scaleFactor = 1;
+var bgMusicURL = 'https://api.soundcloud.com/tracks/143041228/stream?client_id=587aa2d384f7333a886010d5f52f302a';
+var bgMusicControls = true;
+
+setTimeout(init, 1000);
 
 var odrag = document.getElementById('drag-container');
 var ospin = document.getElementById('spin-container');
 var aImg = ospin.getElementsByTagName('img');
-var aVid = ospin.getElementsByTagName('video');
-var aEle = [...aImg, ...aVid];
+var aEle = [...aImg];
 
 ospin.style.width = imgWidth + "px";
 ospin.style.height = imgHeight + "px";
@@ -23,49 +21,78 @@ var ground = document.getElementById('ground');
 ground.style.width = radius * 3 + "px";
 ground.style.height = radius * 3 + "px";
 
-// Touch Controls
-odrag.addEventListener("touchstart", function(e) {
-    if (e.touches.length === 1) {
-        isDragging = true;
-        lastX = e.touches[0].clientX;
-        lastY = e.touches[0].clientY;
-    } else if (e.touches.length === 2) {
-        isDragging = false;
-        lastTouchDist = getDistance(e.touches[0], e.touches[1]);
-    }
-});
-
-odrag.addEventListener("touchmove", function(e) {
-    e.preventDefault();
-    if (e.touches.length === 1 && isDragging) {
-        var deltaX = e.touches[0].clientX - lastX;
-        var deltaY = e.touches[0].clientY - lastY;
-        lastX = e.touches[0].clientX;
-        lastY = e.touches[0].clientY;
-        tX += deltaX * 0.1;
-        tY += deltaY * 0.1;
-        applyTransform(odrag);
-    } else if (e.touches.length === 2) {
-        var newDist = getDistance(e.touches[0], e.touches[1]);
-        var zoomFactor = newDist / lastTouchDist;
-        scaleFactor *= zoomFactor;
-        scaleFactor = Math.max(0.5, Math.min(2, scaleFactor));
-        ospin.style.transform = `scale(${scaleFactor})`;
-        lastTouchDist = newDist;
-    }
-});
-
-odrag.addEventListener("touchend", function(e) {
-    isDragging = false;
-});
-
-function getDistance(touch1, touch2) {
-    return Math.sqrt(
-        Math.pow(touch2.clientX - touch1.clientX, 2) +
-        Math.pow(touch2.clientY - touch1.clientY, 2)
-    );
+function init(delayTime) {
+  for (var i = 0; i < aEle.length; i++) {
+    aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px)";
+    aEle[i].style.transition = "transform 1s";
+    aEle[i].style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
+  }
 }
 
 function applyTransform(obj) {
-    obj.style.transform = `rotateX(${tY}deg) rotateY(${tX}deg)`;
+  if(tY > 180) tY = 180;
+  if(tY < 0) tY = 0;
+  obj.style.transform = "rotateX(" + (-tY) + "deg) rotateY(" + (tX) + "deg)";
 }
+
+function playSpin(yes) {
+  ospin.style.animationPlayState = (yes ? 'running' : 'paused');
+}
+
+var sX, sY, nX, nY, desX = 0, desY = 0, tX = 0, tY = 10;
+
+if (autoRotate) {
+  var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
+  ospin.style.animation = animationName + " " + Math.abs(rotateSpeed) + "s infinite linear";
+}
+
+if (bgMusicURL) {
+  document.getElementById('music-container').innerHTML += 
+  `<audio src="${bgMusicURL}" ${bgMusicControls ? 'controls' : ''} autoplay loop>
+    <p>Your browser does not support the audio element.</p>
+  </audio>`;
+}
+
+document.onpointerdown = function (e) {
+  clearInterval(odrag.timer);
+  e = e || window.event;
+  sX = e.clientX;
+  sY = e.clientY;
+
+  this.onpointermove = function (e) {
+    e = e || window.event;
+    nX = e.clientX;
+    nY = e.clientY;
+    desX = nX - sX;
+    desY = nY - sY;
+    tX += desX * 0.1;
+    tY += desY * 0.1;
+    applyTransform(odrag);
+    sX = nX;
+    sY = nY;
+  };
+
+  this.onpointerup = function () {
+    odrag.timer = setInterval(function () {
+      desX *= 0.95;
+      desY *= 0.95;
+      tX += desX * 0.1;
+      tY += desY * 0.1;
+      applyTransform(odrag);
+      playSpin(false);
+      if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
+        clearInterval(odrag.timer);
+        playSpin(true);
+      }
+    }, 17);
+    this.onpointermove = this.onpointerup = null;
+  };
+  return false;
+};
+
+document.onwheel = function(e) {
+  e = e || window.event;
+  var d = e.deltaY / 20 || -e.detail;
+  radius += d;
+  init(1);
+};
