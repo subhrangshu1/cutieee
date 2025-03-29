@@ -70,8 +70,18 @@ box-shadow: 0 0 15px #fffd;
 #drag-container p {
 font-family: Serif;
 position: absolute;
-top: 100%;
+top: 50%;
 centre: 50%;
+    font-size: 50px; /* Size badhao */
+    font-weight: bold; /* Mota aur readable */
+    color: #fff; /* White color */
+    text-align: center; /* Alignment center */
+    position: absolute;
+
+    transform: translate(-50%, -50%); /* Bilkul beech mein laane ke liye */
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5);
+}
+
     font-size: 40px; /* Size badhao */
     font-weight: bold; /* Mota aur readable bana do */
     text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5); /* Thoda glow effect */
