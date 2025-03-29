@@ -4,24 +4,11 @@ var rotateSpeed = -60; // unit: seconds/360 degrees
 var imgWidth = 120; // width of images (unit: px)
 var imgHeight = 170; // height of images (unit: px)
 
-// Remove background music container
-document.getElementById('music-container').remove();
+// Link of background music - set 'null' if you dont want to play background music
+var bgMusicURL = 'https://api.soundcloud.com/tracks/143041228/stream?client_id=587aa2d384f7333a886010d5f52f302a';
+var bgMusicControls = true; // Show UI music control
 
-// Add new background music
-var audio = new Audio('Kabhi_Kabhi.mp3'); // Replace with correct path if needed
-audio.volume = 0.1; // Start with low volume
-audio.loop = true;
 
-document.getElementById('click-me').addEventListener('click', function() {
-  audio.play(); // Play music on click of [Click Me]
-  let volumeIncrease = setInterval(() => {
-    if (audio.volume < 1) {
-      audio.volume = Math.min(audio.volume + 0.1, 1);
-    } else {
-      clearInterval(volumeIncrease);
-    }
-  }, 500);
-}, { once: true }); // Ensures it triggers only once
 
 // ===================== start =======================
 // animation start after 1000 miliseconds
@@ -51,8 +38,11 @@ function init(delayTime) {
 }
 
 function applyTranform(obj) {
+  // Constrain the angle of camera (between 0 and 180)
   if(tY > 180) tY = 180;
   if(tY < 0) tY = 0;
+
+  // Apply the angle
   obj.style.transform = "rotateX(" + (-tY) + "deg) rotateY(" + (tX) + "deg)";
 }
 
@@ -69,6 +59,15 @@ var sX, sY, nX, nY, desX = 0,
 if (autoRotate) {
   var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
   ospin.style.animation = `${animationName} ${Math.abs(rotateSpeed)}s infinite linear`;
+}
+
+// add background music
+if (bgMusicURL) {
+  document.getElementById('music-container').innerHTML += `
+<audio src="${bgMusicURL}" ${bgMusicControls? 'controls': ''} autoplay loop>
+<p>If you are reading this, it is because your browser does not support the audio element.</p>
+</audio>
+`;
 }
 
 // setup events
