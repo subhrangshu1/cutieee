@@ -1,122 +1,90 @@
 * {
-margin: 0;
-padding: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-html,
-body {
-height: 100%;
-/* for touch screen */
-touch-action: none;
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Scrollbar hatane ke liye */
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1500px;
 }
 
-body {
-overflow: hidden;
-display: -webkit-box;
-display: -ms-flexbox;
-display: flex;
-background: #111;
--webkit-perspective: 1000px;
-perspective: 1000px;
--webkit-transform-style: preserve-3d;
-transform-style: preserve-3d;
+#drag-container {
+    width: 120vw;  /* Page ko thoda bada kiya */
+    height: 120vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
 }
 
-#drag-container, #spin-container {
-position: relative;
-display: -webkit-box;
-display: -ms-flexbox;
-display: flex;
-margin: auto;
--webkit-transform-style: preserve-3d;
-transform-style: preserve-3d;
--webkit-transform: rotateX(-10deg);
-transform: rotateX(-10deg);
+#spin-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(-10deg);
 }
 
 #drag-container img, #drag-container video {
--webkit-transform-style: preserve-3d;
-transform-style: preserve-3d;
-position: absolute;
-left: 0;
-top: 0;
-width: 100%;
-height: 100%;
-line-height: 200px;
-font-size: 50px;
-text-align: center;
--webkit-box-shadow: 0 0 8px #fff;
-box-shadow: 0 0 8px #fff;
--webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0005);
-}
-
-#drag-container img:hover, #drag-container video:hover {
--webkit-box-shadow: 0 0 15px #fffd;
-box-shadow: 0 0 15px #fffd;
--webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0007);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 170px;
+    object-fit: cover;
+    box-shadow: 0 0 8px #fff;
+    transform-style: preserve-3d;
 }
 
 #drag-container p {
-font-family: Serif;
-position: absolute;
-top: 100%;
-left: 50%;
--webkit-transform: translate(-50%,-50%) rotateX(90deg);
-transform: translate(-50%,-50%) rotateX(90deg);
-color: #fff;
+    font-family: Serif;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotateX(90deg);
+    color: #fff;
+    font-size: 20px;
 }
 
 #ground {
-width: 900px;
-height: 900px;
-position: absolute;
-top: 100%;
-left: 50%;
--webkit-transform: translate(-50%,-50%) rotateX(90deg);
-transform: translate(-50%,-50%) rotateX(90deg);
-background: -webkit-radial-gradient(center center, farthest-side , #9993, transparent);
+    width: 1000px; /* Pehle 900px tha, ab thoda bada kiya */
+    height: 1000px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotateX(90deg);
+    background: radial-gradient(circle, #9993, transparent);
 }
 
 #music-container {
-position: absolute;
-top: 0;
-left: 0;
-}
-
-@-webkit-keyframes spin {
-from{
--webkit-transform: rotateY(0deg);
-transform: rotateY(0deg);
-} to{
--webkit-transform: rotateY(360deg);
-transform: rotateY(360deg);
-}
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 @keyframes spin {
-from{
--webkit-transform: rotateY(0deg);
-transform: rotateY(0deg);
-} to{
--webkit-transform: rotateY(360deg);
-transform: rotateY(360deg);
+    from {
+        transform: rotateY(0deg);
+    } 
+    to {
+        transform: rotateY(360deg);
+    }
 }
-}
-@-webkit-keyframes spinRevert {
-from{
--webkit-transform: rotateY(360deg);
-transform: rotateY(360deg);
-} to{
--webkit-transform: rotateY(0deg);
-transform: rotateY(0deg);
-}
-}
+
 @keyframes spinRevert {
-from{
--webkit-transform: rotateY(360deg);
-transform: rotateY(360deg);
-} to{
--webkit-transform: rotateY(0deg);
-transform: rotateY(0deg);
+    from {
+        transform: rotateY(360deg);
+    } 
+    to {
+        transform: rotateY(0deg);
+    }
 }
-}
+
