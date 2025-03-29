@@ -71,7 +71,10 @@ box-shadow: 0 0 15px #fffd;
 font-family: Serif;
 position: absolute;
 top: 100%;
-left: 50%;
+centre: 50%;
+    font-size: 40px; /* Size badhao */
+    font-weight: bold; /* Mota aur readable bana do */
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5); /* Thoda glow effect */
 -webkit-transform: translate(-50%,-50%) rotateX(90deg);
 transform: translate(-50%,-50%) rotateX(90deg);
 color: #fff;
