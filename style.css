@@ -43,9 +43,13 @@ top: 0;
 max-width: 200%;
 max-height: 250px;
 @media (max-width: 768px) {
+    #drag-container img, #drag-container video {
+        max-width: 150%;
+        max-height: 300px;
+    }
     #ground {
-        width: 700px;
-        height: 700px;
+        width: 800px;
+        height: 800px;
     }
 }
 
