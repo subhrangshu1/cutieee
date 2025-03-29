@@ -8,38 +8,20 @@ var imgHeight = 170; // height of images (unit: px)
 document.getElementById('music-container').remove();
 
 // Add new background music
-var audio = new Audio('Kabhi kabhi.mp3'); // Ensure the file exists and has the correct path
+var audio = new Audio('Kabhi kabhi.mp3'); // Replace with correct path if needed
 audio.volume = 0.1; // Start with low volume
 audio.loop = true;
 
-// Create a button for playing music
-var clickMeButton = document.createElement('button');
-clickMeButton.id = 'click-me';
-clickMeButton.textContent = 'Click Me';
-clickMeButton.style.position = 'absolute';
-clickMeButton.style.top = '50%';
-clickMeButton.style.left = '50%';
-clickMeButton.style.transform = 'translate(-50%, -50%)';
-clickMeButton.style.padding = '10px 20px';
-clickMeButton.style.fontSize = '16px';
-clickMeButton.style.cursor = 'pointer';
-document.body.appendChild(clickMeButton);
-
-clickMeButton.addEventListener('click', function(event) {
-  event.stopPropagation(); // Prevents triggering if other areas are clicked
-  audio.play().then(() => {
-    console.log("Audio started playing");
-    let volumeIncrease = setInterval(() => {
-      if (audio.volume < 1) {
-        audio.volume = Math.min(audio.volume + 0.1, 1);
-      } else {
-        clearInterval(volumeIncrease);
-      }
-    }, 500);
-  }).catch(error => {
-    console.log("Error playing audio:", error);
-  });
-}, { once: true });
+document.addEventListener('click', function() {
+  audio.play(); // Play music on user interaction
+  let volumeIncrease = setInterval(() => {
+    if (audio.volume < 1) {
+      audio.volume = Math.min(audio.volume + 0.1, 1);
+    } else {
+      clearInterval(volumeIncrease);
+    }
+  }, 500);
+}, { once: true }); // Ensures it triggers only once
 
 // ===================== start =======================
 // animation start after 1000 miliseconds
