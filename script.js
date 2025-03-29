@@ -44,7 +44,8 @@ ground.style.height = radius * 3 + "px";
 
 function init(delayTime) {
   for (var i = 0; i < aEle.length; i++) {
-    let extraOffset = (aEle[i].naturalWidth / aEle[i].naturalHeight > 1.5) ? -30 : 0; 
+    let extraOffset = (aEle[i].naturalWidth / aEle[i].naturalHeight > 1.5) ? -30 : 0;
+
 aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px) translateY(" + extraOffset + "px)";
 
     aEle[i].style.transition = "transform 1s";
