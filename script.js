@@ -24,13 +24,6 @@ document.getElementById('click-me-text').addEventListener('click', function(even
   }, 500);
 }, { once: true }); // Ensures it triggers only once
 
-// Disable playing music on other clicks
-document.addEventListener('click', function(event) {
-  if (event.target.id !== 'click-me-text') {
-    event.stopPropagation();
-  }
-}, true);
-
 // ===================== start =======================
 // animation start after 1000 miliseconds
 setTimeout(init, 1000);
